@@ -1,8 +1,7 @@
 'use strict';
 
 ///////////////////////////////////////
-// Modal window
-
+// UI elenent selectors
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -10,7 +9,12 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const linksNav = document.querySelectorAll('.nav__link');
+const btnsTab = document.querySelectorAll('.operations__tab');
+const tabContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
+///////////////////////////////////////
+// Modal window
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -35,7 +39,6 @@ document.addEventListener('keydown', function (e) {
 
 ///////////////////////////////////////
 // Smooth scroll to section1
-
 btnScrollTo.addEventListener('click', e => {
   //////// old school
   // const s1coords = section1.getBoundingClientRect();
@@ -51,7 +54,6 @@ btnScrollTo.addEventListener('click', e => {
 
 ///////////////////////////////////////
 // Page navigation
-
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -59,4 +61,20 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
+});
+
+///////////////////////////////////////
+// Operations tabs
+tabContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  if (!clicked) return;
+  // clear all active classes
+  btnsTab.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+  //add active class to the nesessary elements
+  clicked.classList.add('operations__tab--active');
+  console.log(clicked.dataset.tab);
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
 });
