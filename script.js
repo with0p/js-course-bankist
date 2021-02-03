@@ -103,3 +103,20 @@ const obsOptions = {
 };
 const observer = new IntersectionObserver(obsCallback, obsOptions);
 observer.observe(header);
+///////////////////////////////////////
+// Reveal section
+
+function revealSection(entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+}
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+allSections.forEach(sec => {
+  sectionObserver.observe(sec);
+  sec.classList.add('section--hidden');
+});
