@@ -7,6 +7,7 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
+const allSections = document.querySelectorAll('.section');
 const section1 = document.querySelector('#section--1');
 const nav = document.querySelector('nav');
 const linksNav = document.querySelectorAll('.nav__link');
@@ -41,18 +42,9 @@ document.addEventListener('keydown', function (e) {
 
 ///////////////////////////////////////
 // Smooth scroll to section1
-btnScrollTo.addEventListener('click', e => {
-  //////// old school
-  // const s1coords = section1.getBoundingClientRect();
-  // window.scrollTo({
-  //   left: s1coords.left,
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth',
-  // });
-
-  //////// modern way
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
+btnScrollTo.addEventListener('click', e =>
+  section1.scrollIntoView({ behavior: 'smooth' })
+);
 
 ///////////////////////////////////////
 // Page navigation
@@ -94,23 +86,15 @@ function handleNavHover(e) {
     logo.style.opacity = this;
   }
 }
-
 nav.addEventListener('mouseover', handleNavHover.bind(0.5));
 nav.addEventListener('mouseout', handleNavHover.bind(1));
 
 ///////////////////////////////////////
 // Sticky nav
-function obsCallback(entries, observer) {
-  entries.forEach(entry => {
-    console.log(
-      entry.isIntersecting,
-      entry.intersectionRatio,
-      visualViewport.height,
-      entry
-    );
-    if (!entry.isIntersecting) nav.classList.add('sticky');
-    else nav.classList.remove('sticky');
-  });
+function obsCallback(entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
 }
 const obsOptions = {
   root: null,
