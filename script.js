@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 ///////////////////////////////////////
 // UI elenent selectors
@@ -8,10 +8,12 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const nav = document.querySelector('nav');
 const linksNav = document.querySelectorAll('.nav__link');
 const btnsTab = document.querySelectorAll('.operations__tab');
 const tabContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
+const header = document.querySelector('header');
 
 ///////////////////////////////////////
 // Modal window
@@ -78,3 +80,42 @@ tabContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+///////////////////////////////////////
+// Smooth scroll to section1
+function handleNavHover(e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('nav').querySelectorAll('.nav__link');
+    const logo = link.closest('nav').querySelector('.nav__logo');
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+}
+
+nav.addEventListener('mouseover', handleNavHover.bind(0.5));
+nav.addEventListener('mouseout', handleNavHover.bind(1));
+
+///////////////////////////////////////
+// Sticky nav
+function obsCallback(entries, observer) {
+  entries.forEach(entry => {
+    console.log(
+      entry.isIntersecting,
+      entry.intersectionRatio,
+      visualViewport.height,
+      entry
+    );
+    if (!entry.isIntersecting) nav.classList.add('sticky');
+    else nav.classList.remove('sticky');
+  });
+}
+const obsOptions = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${nav.getBoundingClientRect().height}px`,
+};
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(header);
