@@ -394,7 +394,7 @@ h4 {
   justify-content: center;
 
   /* THIS creates the animation! */
-  transition: transform 1s;
+  transition: transform 1s, opacity 0.5s;
 }
 
 .slide > img {
